@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.service.snapcast-client"
+    name="Snapcast client"
+    version="0.1.0"
+    provider-name="rimeno">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.snapcast" version="2.1.3"/>
+  </requires>
+  <extension point="xbmc.python.script" library="ui.py">
+    <provides>executable</provides>
+  </extension>
+  <extension point="xbmc.service" library="service.py" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">Snapcast control client.</summary>
+    <description lang="en">Start/stop snapclient.service from menu and automaticly stop it when Kodi's playing.</description>
+    <license>GNU General Public License, v3</license>
+    <language></language>
+    <source>https://github.com/rimeno/script.service.snapcast-client</source>
+    <website></website>
+    <email>rafaneto@punktona.org</email>
+    <assets>
+        <icon>resources/icon.png</icon>
+    </assets>
+  </extension>
+</addon>

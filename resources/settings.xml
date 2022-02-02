@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings version="1">
+    <section id="script.service.snapcast-client">
+        <category id="autostart" label="32001">
+            <group id="1" label="">
+                <setting label="32011" type="boolean"   id="StartupAutostart" help="">
+                    <level>0</level>
+                    <default>false</default>
+                    <control type="toggle"/>
+                </setting>
+                <setting label="32012" type="boolean"   id="Autostart" help="">
+                    <level>0</level>
+                    <default>false</default>
+                    <control type="toggle"/>
+                </setting>
+            </group>
+        </category>
+        <category id="control" label="32002">
+            <group id="1" label="">
+                <setting label="32021" type="string"   id="ServerAddress" help="">
+                    <level>0</level>
+                    <default></default>
+                    <constraints>
+                        <allowempty>true</allowempty>
+                    </constraints>
+                    <control type="edit" format="string">
+                        <heading>32021</heading>
+                    </control>
+                </setting>
+                <setting label="32022" type="boolean"   id="SyncVolume" help="">
+                    <level>0</level>
+                    <default>false</default>
+                    <control type="toggle"/>
+                    <dependencies>
+                        <dependency type="enable" operator="!is" setting="ServerAddress"></dependency>
+                    </dependencies>
+                </setting>
+            </group>
+        </category>
+    </section>
+</settings>

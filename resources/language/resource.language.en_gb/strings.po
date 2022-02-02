@@ -1,0 +1,67 @@
+# Kodi Media Center language file
+# Addon Name: Snapcast client
+# Addon id: script.service.snapcast-client
+# Addon Provider: rimeno
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfert-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# GUI
+msgctxt "#30001"
+msgid "Snapcast"
+msgstr ""
+
+msgctxt "#30011"
+msgid "Start"
+msgstr ""
+
+msgctxt "#30012"
+msgid "Stop"
+msgstr ""
+
+msgctxt "#30013"
+msgid "Options..."
+msgstr ""
+
+msgctxt "#30014"
+msgid "Sync volume"
+msgstr ""
+
+# Settings
+msgctxt "#32001"
+msgid "Auto start"
+msgstr ""
+
+msgctxt "#32011"
+msgid "Start snapcast client on Kodi startup"
+msgstr ""
+
+msgctxt "#32012"
+msgid "Start snapcast client when Kodi is not playing"
+msgstr ""
+
+msgctxt "#32002"
+msgid "Control"
+msgstr ""
+
+msgctxt "#32021"
+msgid "Server address"
+msgstr ""
+
+msgctxt "#32022"
+msgid "Sync volume"
+msgstr ""
+
+
+# Systemd
+msgctxt "#34011"
+msgid "Started"
+msgstr ""
+
+msgctxt "#34012"
+msgid "Stopped"
+msgstr ""

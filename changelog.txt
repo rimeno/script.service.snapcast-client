@@ -1,0 +1,4 @@
+0.1.0 Merge service
+0.0.3 UI and settings to service
+0.0.2 Internalization
+0.0.1 Initial Release
