@@ -24,7 +24,7 @@ Thanks to [frafall](https://github.com/frafall/service.snapcast) for is original
 
 ### From repository
 
-Add Rafaneto repository by installing this zip file [repository.rafaneto-0.0.2.zip](https://rimeno.github.io/repository.rafaneto-0.0.2.zip)
+Add Rafaneto repository by installing this zip file [repository.rafaneto-0.0.2.zip](https://rimeno.github.io/repo/zips/repository.rafaneto/repository.rafaneto-0.0.2.zip)
 and then search "snapcast client".
 
 ### Build
