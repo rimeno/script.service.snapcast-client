@@ -19,9 +19,8 @@ class SnapControl():
     def __init__(self):
         self.addon = xbmcaddon.Addon()
         host = self.addon.getSetting("ServerAddress")
-        xbmc.log("[{}] debug {}".format( self.addon.getAddonInfo('id'), host), level=xbmc.LOGINFO)
 
-        if host is not None:
+        if host:
             mac = ":".join(re.findall("..", "%012x" % uuid.getnode()))
             self.loop = asyncio.new_event_loop()
             self.server = self.loop.run_until_complete(
@@ -36,6 +35,7 @@ class SnapControl():
         else:
             self.client = False
             self.sync = False
+
 
     def get_or_create_eventloop(self):
         try:
