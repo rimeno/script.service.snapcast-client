@@ -10,6 +10,8 @@ import uuid
 import json
 import xbmc
 import xbmcaddon
+import socket
+from ipaddress import ip_address, IPv4Address
 
 import snapcast.control
 
@@ -21,21 +23,56 @@ class SnapControl():
         host = self.addon.getSetting("ServerAddress")
 
         if host:
-            mac = ":".join(re.findall("..", "%012x" % uuid.getnode()))
-            self.loop = asyncio.new_event_loop()
-            self.server = self.loop.run_until_complete(
-                snapcast.control.create_server(self.loop, host))
-            for client in self.server.clients:
-                if client.identifier == mac:
-                    self.client = client
-                    if self.addon.getSetting("SyncVolume"):
-                        self.sync = True
-                    else:
-                        self.sync = False
+            if self._testHost(host):
+                mac = ":".join(re.findall("..", "%012x" % uuid.getnode()))
+                self.loop = asyncio.new_event_loop()
+                self.server = self.loop.run_until_complete(
+                    snapcast.control.create_server(self.loop, host))
+                for client in self.server.clients:
+                    if client.identifier == mac:
+                        self.client = client
+                        if self.addon.getSetting("SyncVolume"):
+                            self.sync = True
+                        else:
+                            self.sync = False
+            else:
+                self.client = False
+                self.sync = False
         else:
             self.client = False
             self.sync = False
 
+    def _testHost(self, host):
+        try:
+            res = socket.getaddrinfo(host, 0, 0, 0, socket.IPPROTO_TCP)
+        except Exception as e:
+            xbmc.log("[{}] The host {} cannot be joined : {}".format(
+                self.addon.getAddonInfo('id'), host, e),
+                    level=xbmc.LOGERROR)
+            return False
+        hostOK = False
+        for r in res:
+            if not hostOK:
+                family, b, c, d, ip = r
+                if type(ip_address(ip[0])) is IPv4Address:
+                    inet = socket.AF_INET
+                else:
+                    inet = socket.AF_INET6
+                a_socket = socket.socket(inet, socket.SOCK_STREAM)
+                a_socket.settimeout(1)
+                result_of_check = a_socket.connect_ex((ip[0], 1704))
+                a_socket.close()
+                if result_of_check == 0:
+                    hostOK = True
+            else:
+                break
+        if hostOK:
+            return True
+        else:
+            xbmc.log("[{}] The host {} cannot be joined".format(
+                self.addon.getAddonInfo('id'), host),
+                    level=xbmc.LOGERROR)
+            return False
 
     def get_or_create_eventloop(self):
         try:
