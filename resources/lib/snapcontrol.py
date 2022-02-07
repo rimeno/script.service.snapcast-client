@@ -35,12 +35,16 @@ class SnapControl():
                             self.sync = True
                         else:
                             self.sync = False
+                        break
             else:
                 self.client = False
                 self.sync = False
         else:
             self.client = False
             self.sync = False
+
+    def __del__(self):
+        del self.loop
 
     def _testHost(self, host):
         try:
