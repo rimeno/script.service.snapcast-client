@@ -44,7 +44,7 @@ class Systemctl():
 
     def isActive(self):
         ret = subprocess.run(['systemctl', self.user, "is-active",
-                              self.service])
+                              self.service], stdout=subprocess.DEVNULL)
         if ret.returncode != 0:
             return False
         else:
