@@ -15,5 +15,5 @@ VERSION="$(awk -F\" '/^\s*version/ {print $2}' "${PROGDIR}/addon.xml")"
 OUTPUT="${TMPDIR}/${NAME}-${VERSION}.zip"
 
 cd "${PROGDIR}/.."
-zip --quiet -r "$OUTPUT" "$NAME"
+zip --quiet -r "$OUTPUT" "$NAME" --exclude '*.git*'
 echo "→ Addon available at : ${OUTPUT}"
