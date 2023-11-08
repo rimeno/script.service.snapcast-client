@@ -25,7 +25,7 @@ def log(message):
 class Monitor(xbmc.Monitor):
 
     def __init__(self, player):
-        super(Monitor, self).__init__(self)
+        super().__init__(self)
         self.player = player
 
     def onSettingsChanged(self):
@@ -35,7 +35,7 @@ class Monitor(xbmc.Monitor):
 class Player(xbmc.Player):
 
     def __init__(self):
-        super(Player, self).__init__(self)
+        super().__init__(self)
         self.service = Systemctl("snapclient")
 
     def start(self):
