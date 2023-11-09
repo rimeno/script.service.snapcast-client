@@ -14,16 +14,14 @@ from resources.lib.snapcontrol import SnapControl
 
 addon = xbmcaddon.Addon()
 
-notifIcon = addon.getAddonInfo('path') + "/resources/icon.png"
+notifIcon = addon.getAddonInfo("path") + "/resources/icon.png"
 
 
 def log(message):
-    xbmc.log("[{}] {}".format(addon.getAddonInfo('id'), message),
-             level=xbmc.LOGINFO)
+    xbmc.log(f'[{addon.getAddonInfo("id")}] {message}', level=xbmc.LOGINFO)
 
 
 class Monitor(xbmc.Monitor):
-
     def __init__(self, player):
         super().__init__(self)
         self.player = player
@@ -33,7 +31,6 @@ class Monitor(xbmc.Monitor):
 
 
 class Player(xbmc.Player):
-
     def __init__(self):
         super().__init__(self)
         self.service = Systemctl("snapclient")
@@ -44,16 +41,16 @@ class Player(xbmc.Player):
             control = SnapControl()
             if control.client and control.sync:
                 control.syncVol("K2S")
-            xbmcgui.Dialog().notification('Snapcast',
-                                          addon.getLocalizedString(34011),
-                                          notifIcon, 5000, False)
+            xbmcgui.Dialog().notification(
+                "Snapcast", addon.getLocalizedString(34011), notifIcon, 5000, False
+            )
 
     def stop(self):
         if self.service.isActive():
             self.service.stop()
-            xbmcgui.Dialog().notification('Snapcast',
-                                          addon.getLocalizedString(34012),
-                                          notifIcon, 5000, False)
+            xbmcgui.Dialog().notification(
+                "Snapcast", addon.getLocalizedString(34012), notifIcon, 5000, False
+            )
 
     def onStartup(self):
         log("event onStartup!")
@@ -77,14 +74,14 @@ class Player(xbmc.Player):
         else:
             log("not started tue to settings")
 
-    def onPlayBackPaused():
+    def onPlayBackPaused(self):
         log("event onPlayBackPaused!")
 
-    def onPlayBackResumed():
+    def onPlayBackResumed(self):
         log("event onPlayBackResumed!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     log("Initializing snapcast addon!")
     player = Player()
     Monitor(player).waitForAbort()
