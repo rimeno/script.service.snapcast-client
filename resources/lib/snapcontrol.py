@@ -8,16 +8,16 @@ import asyncio
 import re
 import uuid
 import json
-import xbmc
-import xbmcaddon
 import socket
 from ipaddress import ip_address, IPv4Address
+
+import xbmc
+import xbmcaddon
 
 import snapcast.control
 
 
-class SnapControl():
-
+class SnapControl:
     def __init__(self):
         self.addon = xbmcaddon.Addon()
         host = self.addon.getSetting("ServerAddress")
@@ -27,7 +27,8 @@ class SnapControl():
                 mac = ":".join(re.findall("..", "%012x" % uuid.getnode()))
                 self.loop = asyncio.new_event_loop()
                 self.server = self.loop.run_until_complete(
-                    snapcast.control.create_server(self.loop, host))
+                    snapcast.control.create_server(self.loop, host)
+                )
                 for client in self.server.clients:
                     if client.identifier == mac:
                         self.client = client
@@ -50,9 +51,12 @@ class SnapControl():
         try:
             res = socket.getaddrinfo(host, 0, 0, 0, socket.IPPROTO_TCP)
         except Exception as e:
-            xbmc.log("[{}] The host {} cannot be joined : {}".format(
-                self.addon.getAddonInfo('id'), host, e),
-                    level=xbmc.LOGERROR)
+            xbmc.log(
+                "[{}] The host {} cannot be joined : {}".format(
+                    self.addon.getAddonInfo("id"), host, e
+                ),
+                level=xbmc.LOGERROR,
+            )
             return False
         hostOK = False
         for r in res:
@@ -72,11 +76,13 @@ class SnapControl():
                 break
         if hostOK:
             return True
-        else:
-            xbmc.log("[{}] The host {} cannot be joined".format(
-                self.addon.getAddonInfo('id'), host),
-                    level=xbmc.LOGERROR)
-            return False
+        xbmc.log(
+            "[{}] The host {} cannot be joined".format(
+                self.addon.getAddonInfo("id"), host
+            ),
+            level=xbmc.LOGERROR,
+        )
+        return False
 
     def get_or_create_eventloop(self):
         try:
@@ -94,15 +100,18 @@ class SnapControl():
         return self.client.volume
 
     def setVolume(self, volume):
-        return self.loop.run_until_complete(self.server.client_volume(
-            self.client.identifier, {'percent': volume, 'muted': False}))
+        return self.loop.run_until_complete(
+            self.server.client_volume(
+                self.client.identifier, {"percent": volume, "muted": False}
+            )
+        )
 
     def getKodiVol(self):
         req = {
             "jsonrpc": "2.0",
             "method": "Application.GetProperties",
             "params": {"properties": ["volume", "muted"]},
-            "id": 1
+            "id": 1,
         }
         res = xbmc.executeJSONRPC(json.dumps(req))
         jres = json.loads(res)
@@ -113,9 +122,13 @@ class SnapControl():
             snapcastVol = self.getVolume()
             kodiVol = self.getKodiVol()
             self.setVolume(kodiVol)
-            xbmc.log("[{}] Set vol from {} to {}".format(
-                self.addon.getAddonInfo('id'), snapcastVol, kodiVol),
-                     level=xbmc.LOGINFO)
+            xbmc.log(
+                "[{}] Set vol from {} to {}".format(
+                    self.addon.getAddonInfo("id"), snapcastVol, kodiVol
+                ),
+                level=xbmc.LOGINFO,
+            )
+
 
 # VIM MODLINE
 # vim: set ai shiftwidth=4 tabstop=4 expandtab:
