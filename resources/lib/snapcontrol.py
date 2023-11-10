@@ -23,7 +23,7 @@ class SnapControl:
         host = self.addon.getSetting("ServerAddress")
 
         if host:
-            if self._testHost(host):
+            if self.test_host(host):
                 mac = ":".join(re.findall("..", "%012x" % uuid.getnode()))
                 self.loop = asyncio.new_event_loop()
                 self.server = self.loop.run_until_complete(
@@ -47,7 +47,7 @@ class SnapControl:
     def __del__(self):
         del self.loop
 
-    def _testHost(self, host):
+    def test_host(self, host):
         try:
             res = socket.getaddrinfo(host, 0, 0, 0, socket.IPPROTO_TCP)
         except Exception as e:
