@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="script.service.snapcast-client"
     name="Snapcast client"
-    version="0.1.1"
+    version="0.2.0"
     provider-name="rimeno">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
@@ -14,15 +14,14 @@
   <extension point="xbmc.addon.metadata">
     <platform>linux</platform>
     <summary lang="en">Snapcast control client.</summary>
-    <description lang="en">Start/stop snapclient.service from menu and automaticly stop it when Kodi's playing.</description>
+    <description lang="en">Mute/Unmute from menu and automaticly mute it when Kodi's playing.</description>
     <license>GNU General Public License, v3</license>
     <language></language>
     <source>https://github.com/rimeno/script.service.snapcast-client</source>
     <website></website>
     <email>rafaneto@punktona.org</email>
-    <news>v0.1.1 (2021-02-07)
-      [fix] bad user server configuration
-      [fix] close theads
+    <news>v0.2.0 (2023-12-25)
+      [new] mute/unmute only
     </news>
     <assets>
         <icon>resources/icon.png</icon>

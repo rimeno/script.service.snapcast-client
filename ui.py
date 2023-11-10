@@ -8,47 +8,40 @@ import xbmcaddon
 import xbmcgui
 import xbmc
 
-from resources.lib.systemd import Systemctl
 from resources.lib.snapcontrol import SnapControl
 
 addon = xbmcaddon.Addon()
 
-notifIcon = addon.getAddonInfo('path') + "resources/icon.png"
+notifIcon = addon.getAddonInfo("path") + "resources/icon.png"
 
 
 def start():
-    service = Systemctl("snapclient")
     player = xbmc.Player()
-    control = SnapControl()
+    snapcast = SnapControl()
     player.stop()
-    if not service.isActive():
-        service.start()
-        if control.client and control.sync:
-            control.syncVol("K2S")
-        xbmcgui.Dialog().notification('Snapcast',
-                                      addon.getLocalizedString(34011),
-                                      notifIcon, 5000, False)
+    if snapcast.getMuteStatus():
+        snapcast.setUnMute()
+        if snapcast.client and snapcast.sync:
+            snapcast.syncVol("K2S")
+        xbmcgui.Dialog().notification(
+            "Snapcast", addon.getLocalizedString(34011), notifIcon, 5000, False
+        )
 
 
 def stop():
-    service = Systemctl("snapclient")
-    if service.isActive():
-        service.stop()
-        xbmcgui.Dialog().notification('Snapcast',
-                                      addon.getLocalizedString(34012),
-                                      notifIcon, 5000, False)
-
-
-def isActive():
-    return Systemctl("snapclient").isActive()
-
+    snapcast = SnapControl()
+    if not snapcast.getMuteStatus():
+        snapcast.setMute()
+        xbmcgui.Dialog().notification(
+            "Snapcast", addon.getLocalizedString(34012), notifIcon, 5000, False
+        )
 
 
 def menu():
-    if isActive():
-        control = SnapControl()
-        if control.client and control.sync:
-            control.syncVol("K2S")
+    snapcast = SnapControl()
+    if not snapcast.getMuteStatus():
+        if snapcast.client and snapcast.sync:
+            snapcast.syncVol("K2S")
         switcher = {
             0: stop,
             1: addon.openSettings,
@@ -72,5 +65,5 @@ def menu():
         return func()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     menu()

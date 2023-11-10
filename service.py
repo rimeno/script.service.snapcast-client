@@ -9,7 +9,6 @@ import xbmc
 import xbmcaddon
 import xbmcgui
 
-from resources.lib.systemd import Systemctl
 from resources.lib.snapcontrol import SnapControl
 
 addon = xbmcaddon.Addon()
@@ -18,10 +17,13 @@ notifIcon = addon.getAddonInfo("path") + "/resources/icon.png"
 
 
 def log(message):
+    """Log to kodi"""
     xbmc.log(f'[{addon.getAddonInfo("id")}] {message}', level=xbmc.LOGINFO)
 
 
 class Monitor(xbmc.Monitor):
+    """Kodi monitoring"""
+
     def __init__(self, player):
         super().__init__(self)
         self.player = player
@@ -33,46 +35,45 @@ class Monitor(xbmc.Monitor):
 class Player(xbmc.Player):
     def __init__(self):
         super().__init__(self)
-        self.service = Systemctl("snapclient")
+        self.snapcast = SnapControl()
 
-    def start(self):
-        if not self.service.isActive():
-            self.service.start()
-            control = SnapControl()
-            if control.client and control.sync:
-                control.syncVol("K2S")
+    def unmute(self):
+        if self.snapcast.getMuteStatus():
+            self.snapcast.setUnMute()
             xbmcgui.Dialog().notification(
                 "Snapcast", addon.getLocalizedString(34011), notifIcon, 5000, False
             )
 
-    def stop(self):
-        if self.service.isActive():
-            self.service.stop()
+    def mute(self):
+        if not self.snapcast.getMuteStatus():
+            self.snapcast.setMute()
             xbmcgui.Dialog().notification(
                 "Snapcast", addon.getLocalizedString(34012), notifIcon, 5000, False
             )
+        else:
+            log(f"no change: mute status: {self.snapcast.getMuteStatus}")
 
     def onStartup(self):
         log("event onStartup!")
         if addon.getSetting("StartupAutoStart") == "true":
-            self.start()
+            self.unmute()
         else:
             log("not started due to settings")
 
     def onShutdown(self):
         log("event onShutdown!")
-        self.stop()
+        self.mute()
 
     def onPlayBackStarted(self):
-        log("event onPlayBackStarted!")
-        self.stop()
+        log("event onPlayBackStarted! lapin")
+        self.mute()
 
     def onPlayBackStopped(self):
         log("event onPlayBackStopped!")
         if addon.getSetting("AutoStart") == "true":
-            self.start()
+            self.unmute()
         else:
-            log("not started tue to settings")
+            log("not started due to settings")
 
     def onPlayBackPaused(self):
         log("event onPlayBackPaused!")

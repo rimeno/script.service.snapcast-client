@@ -1,3 +1,5 @@
+0.2.0 Mute instead of stop the service
+0.1.1 Fixes
 0.1.0 Merge service
 0.0.3 UI and settings to service
 0.0.2 Internalization

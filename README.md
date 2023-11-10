@@ -1,23 +1,21 @@
 # script.service.snapcast-client
 
 
-Service that stop Snapcast client when Kodi is playing and a
-basic GUI to start/stop it. It depends on a systemd unit file in
-Kodi user space, `snapclient.service`.
+Service that mute Snapcast client when Kodi is playing and a basic GUI to mute/unmute it.
 
 Thanks to [frafall](https://github.com/frafall/service.snapcast) for is original work for LibreELEC.
 
+Since release 0.2.0, this plugin doesn't stop systemd unit file, it will mute snapclient for better interoperability.
+
 ## Features
 
-* Start/Stop from Kodi interface
+* Mute/Unmute from Kodi interface
 * Optionally autostart snapcast on Kodi startup
 * Optionally autostart snapcast when Kodi stop playing
 * Optionally sync volume from Kodi to snapcast
 
 
-
 * No dependencies on LibreELEC
-* Dependency on systemd
 * Python 3
 
 ## Install
@@ -43,28 +41,6 @@ cd script.service.snapcast-client
 
 ## Notes
 
-This addon will not install Snapcast server nor Snapcast client.
-You have to setup your snapclient installation with systemd in userspace and it should
-run with the Kodi user.
+**This addon will not install Snapcast server nor Snapcast client.**
 
-For instance, if the home directory of your Kodi user is `/home/kodi` and you have configured
-snapclient in `/home/kodi/.config/snapclient`, you could use this service for your 
-`/home/kodi/.config/systemd/user/snapclient.service`
-
-```INI
-[Unit]
-Description=Snapcast client
-Documentation=man:snapclient(1)
-Wants=avahi-daemon.service
-After=network.target time-sync.target sound.target avahi-daemon.service pulseaudio.service
-
-[Service]
-EnvironmentFile=-/home/kodi/.config/snapclient
-ExecStart=/usr/bin/snapclient $SNAPCLIENT_OPTS
-# very noisy on stdout
-StandardOutput=null
-Restart=on-failure
-
-[Install]
-WantedBy=default.target
-```
+You have to setup your snapclient installation, with the kodi user or by sharing a pulse daemon.
